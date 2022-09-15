@@ -2,16 +2,41 @@
 
 // variables
 let containerEl = document.getElementById("container");
+let inputEl = document.getElementById("color-in");
 
-// Array
-let colours = ["red", "green", "blue", "orange", "cyan"];
+// Global variable
+let colors;
 
-// Click Event
-document.addEventListener("click", update);
+// Fetch content from colors.txt
+fetch("colours.txt").then(convertData).catch(processData);
 
-function update() {
-    containerEl.innerHTML = `<div style="background: ${colours[randomInt(0, 5)]}"></div>`;
+function convertData(rawData) {
+    return rawData.text();
+}
+
+function processData(stringData) {
+    colors = stringData.split(/\r?\n/);
+    displayColors(colors);
 }
 
 
+// event listener
+inputEl.addEventListener("keydown", submitHandler);
 
+function submitHandler(event) {
+  if (event.keyCode === 13) {
+    // Add user's color to colors array and display
+    colors.push(inputEl.value);
+    inputEl.value = "";
+    displayColors(colors);
+  }
+}
+
+function displayColors(colors) {
+  // Display all colors on page
+  let divStr = "";
+  for (let i = 0; i < colors.length; i++) {
+    divStr += `<div style="background: ${colors[i]}"></div>`;
+  }
+  containerEl.innerHTML = divStr;
+}

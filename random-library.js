@@ -7,10 +7,15 @@ function randomDec(low, high){
 
 // Return a random integer b/t low (inclusive) and high (exclusive)
 function randomInt(low, high){
-    return Math.floor(randomDec(high - low));
+    return Math.floor(randomDec(low, high));
 }
 
 // Return a random rgb color- 'rgb(_, _, _)'
 function randomRGB() {
     return `rgb(${randomInt(0, 256)}, ${randomInt(0, 256)}, ${randomInt(0, 256)})`
+}
+
+// return a random array element
+function randomElement(anArray) {
+    return anArray[randomInt(0, anArray.length)]
 }
