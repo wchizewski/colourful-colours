@@ -8,7 +8,7 @@ let inputEl = document.getElementById("color-in");
 let colors;
 
 // Fetch content from colors.txt
-fetch("colours.txt").then(convertData).catch(processData);
+fetch("colours.txt").then(convertData).then(processData);
 
 function convertData(rawData) {
     return rawData.text();
@@ -21,22 +21,23 @@ function processData(stringData) {
 
 
 // event listener
-inputEl.addEventListener("keydown", submitHandler);
+inputEl.addEventListener("keyup", submitHandler);
 
 function submitHandler(event) {
-  if (event.keyCode === 13) {
-    // Add user's color to colors array and display
-    colors.push(inputEl.value);
-    inputEl.value = "";
-    displayColors(colors);
+  let divStr = "";
+  for (let i = 0; i < colors.length; i++) {
+    if (colors[i].includes(inputEl.value)) {
+    divStr += `<div style="background: ${colors[i]}">${colors[i]}</div>`;
+    }
   }
+  containerEl.innerHTML = divStr;
 }
 
 function displayColors(colors) {
   // Display all colors on page
   let divStr = "";
   for (let i = 0; i < colors.length; i++) {
-    divStr += `<div style="background: ${colors[i]}"></div>`;
+    divStr += `<div style="background: ${colors[i]}">${colors[i]}</div>`;
   }
   containerEl.innerHTML = divStr;
 }
